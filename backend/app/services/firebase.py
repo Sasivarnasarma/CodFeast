@@ -1,18 +1,18 @@
 import os
 from typing import Dict, Any, Optional
-from datetime import datetime
+from datetime import datetime, timezone
 
 import firebase_admin
 from firebase_admin import credentials, auth, firestore
 
-FIREBASE_CRED_PATH = os.environ.get('FIREBASE_CREDENTIAL_PATH', 'D:\\Py Projects\\CodFeastBackEnd\\firebase-adminsdk.json')
+FIREBASE_CRED_PATH = os.environ.get('FIREBASE_CREDENTIAL_PATH', '')
 
 # Initialize Firebase Admin SDK (idempotent)
 if not firebase_admin._apps:
     cred = credentials.Certificate(FIREBASE_CRED_PATH)
     firebase_admin.initialize_app(cred)
 
-db = firestore.client(database_id='cod-fest-db')
+db = firestore.client(database_id='cod-fest-db-x')
 
 # Firestore collection refs
 TEAMS_COL = db.collection('teams')
@@ -83,7 +83,7 @@ def list_matches():
 
 
 def write_leaderboard(season_id: str, rankings: Dict[str, Any]):
-    LEADERBOARD_COL.document(season_id).set({'rankings': rankings, 'updated_at': datetime.now(datetime.timezone.utc)})
+    LEADERBOARD_COL.document(season_id).set({'rankings': rankings, 'updated_at': datetime.now(timezone.utc)})
 
 
 def get_leaderboard(season_id: str):

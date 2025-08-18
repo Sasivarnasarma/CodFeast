@@ -35,3 +35,10 @@ async def approve_team(team_id: str, admin=Depends(lambda: None)):
         raise HTTPException(status_code=404, detail='Team not found')
     fb.update_team(team_id, {'status': 'approved'})
     return {'ok': True}
+
+@router.get('/{team_id}', response_model=TeamResponse)
+async def get_team(team_id: str):
+    team = fb.get_team(team_id)
+    if not team:
+        raise HTTPException(status_code=404, detail='Team not found')
+    return team

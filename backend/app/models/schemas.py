@@ -17,6 +17,9 @@ class TeamResponse(BaseModel):
     telephone: str
     members: List[Member]
     status: str
+    wins: Optional[int] = 0
+    losses: Optional[int] = 0
+    draws: Optional[int] = 0
     registered_at: Optional[datetime]
     total_points: int = 0
 

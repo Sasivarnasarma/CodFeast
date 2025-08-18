@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CoD4 Esports — First Strike</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <div class="brand-mark">C4</div>
+        <div class="brand-text">
+          <span class="brand-title">CoD4 ESPORTS</span>
+          <span class="brand-sub">FIRST STRIKE</span>
+        </div>
+      </div>
+      <nav class="links" id="navLinks">
+        <a href="#register">Register</a>
+        <a href="#live">Live Score</a>
+        <a href="#schedule">Schedule</a>
+        <a href="#history">Match History</a>
+        <a href="#rules">Rules</a>
+      </nav>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO / VICTORY STYLE BANNER -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-badge">STATUS REPORT</div>
+      <h1>
+        <span>FIRST STRIKE</span>
+        <strong>CHAMPIONS CUP</strong>
+      </h1>
+      <p class="hero-sub">Call of Duty 4: Modern Warfare — Asia Region</p>
+      <div class="hero-ctas">
+        <a href="#register" class="btn primary">Register Team</a>
+        <a href="#live" class="btn ghost">Watch Live</a>
+      </div>
+      <div class="hero-meta">
+        <div class="meta-item">
+          <span class="meta-label">Next Match</span>
+          <span class="meta-value" id="countdown">--:--:--</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Bracket</span>
+          <span class="meta-value">Single Elimination</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <!-- Simple geometric art -->
+      <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="grid" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#00ff88" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#006644" stop-opacity="0.1"/>
+          </linearGradient>
+        </defs>
+        <g opacity="0.55">
+          <!-- grid -->
+          <path d="M0 350 L800 50" stroke="url(#grid)" stroke-width="2"/>
+          <path d="M0 320 L800 20" stroke="url(#grid)" stroke-width="1"/>
+          <path d="M0 380 L800 80" stroke="url(#grid)" stroke-width="1"/>
+          <path d="M50 0 L50 400" stroke="url(#grid)" stroke-width="1"/>
+          <path d="M150 0 L150 400" stroke="url(#grid)" stroke-width="1"/>
+          <path d="M250 0 L250 400" stroke="url(#grid)" stroke-width="1"/>
+          <path d="M350 0 L350 400" stroke="url(#grid)" stroke-width="1"/>
+          <path d="M450 0 L450 400" stroke="url(#grid)" stroke-width="1"/>
+          <path d="M550 0 L550 400" stroke="url(#grid)" stroke-width="1"/>
+          <path d="M650 0 L650 400" stroke="url(#grid)" stroke-width="1"/>
+          <path d="M750 0 L750 400" stroke="url(#grid)" stroke-width="1"/>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- LIVE SCORE TICKER -->
+  <section class="live" id="live">
+    <div class="container">
+      <div class="section-head">
+        <span class="tag">LIVE</span>
+        <h2>Live Score</h2>
+      </div>
+      <div class="ticker" id="ticker">
+        <!-- JS fills items -->
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHEDULE / PHASES -->
+  <section class="schedule" id="schedule">
+    <div class="container">
+      <div class="section-head">
+        <span class="tag">SCHEDULE</span>
+        <h2>First Strike Schedule</h2>
+      </div>
+
+      <div class="stage-grid">
+        <div class="stage-card">
+          <div class="stage-tag">QUALIFIERS</div>
+          <h3>FRIDAY</h3>
+          <p class="time">1:00 PM IST</p>
+        </div>
+        <div class="stage-card">
+          <div class="stage-tag">SEMIFINALS</div>
+          <h3>SATURDAY</h3>
+          <p class="time">4:00 PM IST</p>
+        </div>
+        <div class="stage-card">
+          <div class="stage-tag">FINALS</div>
+          <h3>SUNDAY</h3>
+          <p class="time">7:00 PM IST</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGISTRATION CALLOUT -->
+  <section class="register" id="register">
+    <div class="container register-inner">
+      <div class="reg-copy">
+        <span class="tag">TEAMS</span>
+        <h2>Register Your Squad</h2>
+        <p>Open to all skill levels. 5v5, Promod rules, anti-cheat enforced. Spots are limited.</p>
+        <ul class="bullets">
+          <li>Team captain &amp; 4 players (1 optional sub)</li>
+          <li>Proof of ID + Discord required</li>
+          <li>Match lobbies hosted on dedicated servers</li>
+        </ul>
+        <a class="btn primary" href="#!">Open Registration Form</a>
+      </div>
+      <form id="teamRegisterForm" class="reg-form">
+  <label>Team Name
+    <input id="teamName" required type="text" placeholder="e.g., Green Reapers"/>
+  </label>
+
+  <label>Team Captain's Telephone Number
+    <input id="teamPhone" required type="tel" placeholder="e.g., +94 123 456 7890" pattern="^\+?[1-9]\d{1,14}$" />
+  </label>
+
+  <div class="members" style="display:grid;gap:8px">
+    <label>Team Members (5 max)</label>
+    <input class="member-name" required type="text" placeholder="Member 1"/>
+    <input class="member-name" required type="text" placeholder="Member 2"/>
+    <input class="member-name" required type="text" placeholder="Member 3"/>
+    <input class="member-name" required type="text" placeholder="Member 4"/>
+    <input class="member-name" required type="text" placeholder="Member 5"/>
+  </div>
+
+  <button class="btn primary" type="submit">Register Team</button>
+</form>
+
+    </div>
+  </section>
+
+  <!-- MATCH HISTORY STRIP -->
+  <section class="history" id="history">
+    <div class="container">
+      <div class="section-head">
+        <span class="tag">RECAP</span>
+        <h2>Recent Match History</h2>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <div class="card-head">
+            <span class="vs">GRN</span>
+            <span class="score">13<span>-</span>10</span>
+            <span class="vs alt">NVX</span>
+          </div>
+          <div class="card-meta">
+            <span>Map: Crash</span><span>Bo3 • 2–1</span><span>2025-08-10</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <span class="vs">SND</span>
+            <span class="score">08<span>-</span>13</span>
+            <span class="vs alt">REZ</span>
+          </div>
+          <div class="card-meta">
+            <span>Map: Crossfire</span><span>Bo3 • 0–2</span><span>2025-08-09</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <span class="vs">VTX</span>
+            <span class="score">13<span>-</span>03</span>
+            <span class="vs alt">BLK</span>
+          </div>
+          <div class="card-meta">
+            <span>Map: Strike</span><span>Bo3 • 2–0</span><span>2025-08-08</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- RULES FOOTER -->
+  <section class="rules" id="rules">
+    <div class="container">
+      <div class="section-head">
+        <span class="tag">RULES</span>
+        <h2>Tournament Guidelines</h2>
+      </div>
+      <div class="rules-grid">
+        <div>
+          <h4>Fair Play</h4>
+          <p>No cheats, hacks, or scripts. Anti-cheat and demo reviews may be requested.</p>
+        </div>
+        <div>
+          <h4>Format</h4>
+          <p>5v5. PromodLIVE. Map veto + knife round for sides. Server pings must be under 120ms.</p>
+        </div>
+        <div>
+          <h4>Conduct</h4>
+          <p>Zero tolerance for harassment, hate speech, or griefing. Play hard; play clean.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container foot-inner">
+      <span>© 2025 CoD4 Esports</span>
+      <span class="dot">•</span>
+      <a href="#!">Discord</a>
+      <span class="dot">•</span>
+      <a href="#!">Contact</a>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
