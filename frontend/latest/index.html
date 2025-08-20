@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CoD4 Tournament — University Esports</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body class="left-bg-image">
+    <header class="nav">
+      <div class="container nav-inner">
+        <div class="brand">
+          <span class="logo-box">UoK</span>
+          <span class="brand-text">COD4 - Modern Warfare</span>
+        </div>
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+          ☰
+        </button>
+        <nav class="links" id="navLinks">
+          <a href="./register.html">Register</a> <a href="#matches">Matches</a>
+          <a href="#leaderboard">Leaderboard</a> <a href="#info">Info</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="hero-bg-image"></div>
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <h1>Call of Duty 4: <span>Modern Warfare</span></h1>
+            <p>
+              Official university tournament hub. Register your squad, track
+              fixtures, and climb the ranks.
+            </p>
+            <div class="hero-cta">
+              <a href="./register.html" class="btn">Register Team</a>
+              <a href="#matches" class="btn ghost">See Matches</a>
+            </div>
+          </div>
+          <div class="hero-meta">
+            <div class="meta-card">
+              <span class="tag">Match Countdown</span>
+              <div class="countdown" id="countdown">--:--:--</div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-art">
+          <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="grid" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#00ff88" stop-opacity="0.8" />
+                <stop offset="100%" stop-color="#006644" stop-opacity="0.1" />
+              </linearGradient>
+            </defs>
+            <g opacity="0.55">
+              <path d="M0 350 L800 50" stroke="url(#grid)" stroke-width="2" />
+              <path d="M0 320 L800 20" stroke="url(#grid)" stroke-width="1" />
+              <path d="M0 380 L800 80" stroke="url(#grid)" stroke-width="1" />
+              <path d="M50 0 L50 400" stroke="url(#grid)" stroke-width="1" />
+              <path d="M150 0 L150 400" stroke="url(#grid)" stroke-width="1" />
+              <path d="M250 0 L250 400" stroke="url(#grid)" stroke-width="1" />
+              <path d="M350 0 L350 400" stroke="url(#grid)" stroke-width="1" />
+              <path d="M450 0 L450 400" stroke="url(#grid)" stroke-width="1" />
+              <path d="M550 0 L550 400" stroke="url(#grid)" stroke-width="1" />
+              <path d="M650 0 L650 400" stroke="url(#grid)" stroke-width="1" />
+              <path d="M750 0 L750 400" stroke="url(#grid)" stroke-width="1" />
+            </g>
+          </svg>
+        </div>
+      </section>
+      <section id="matches">
+        <section id="upMatches" class="stage">
+          <div class="container">
+            <div class="section-head">
+              <span class="tag">MATCHES</span>
+              <h2>UPCOMING</h2>
+              <div class="head-actions">
+                <button class="btn ghost" id="upRefreshMatches">Refresh</button>
+              </div>
+            </div>
+            <div id="upMatchesList" class="cards"></div>
+            <div class="empty" id="upMatchesEmpty" hidden>
+              No matches scheduled yet.
+            </div>
+          </div>
+        </section>
+        <section id="fnMatches" class="stage">
+          <div class="container">
+            <div class="section-head">
+              <span class="tag">MATCHES</span>
+              <h2>COMPLETED</h2>
+              <div class="head-actions">
+                <button class="btn ghost" id="fnRefreshMatches">Refresh</button>
+              </div>
+            </div>
+            <div id="fnMatchesList" class="cards"></div>
+            <div class="empty" id="fnMatchesEmpty" hidden>
+              No matches finished yet.
+            </div>
+          </div>
+        </section>
+      </section>
+      <section id="leaderboard" class="leader">
+        <div class="container">
+          <div class="section-head">
+            <span class="tag">LEADERBOARD</span>
+            <h2>SCORES</h2>
+            <div class="head-actions">
+              <button class="btn ghost" id="refreshLeaderboard">Refresh</button>
+            </div>
+          </div>
+          <div class="table-wrap" id="leaderboardTableWrap">
+            <table class="table" id="leaderboardTable" aria-label="Leaderboard">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Team</th>
+                  <th>PTS</th>
+                  <th>W</th>
+                  <th>L</th>
+                  <th>D</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <div class="empty" id="leaderboardEmpty" hidden>No teams yet.</div>
+          </div>
+        </div>
+      </section>
+      <section id="info" class="rules">
+        <div class="container">
+          <div class="section-head">
+            <span class="tag">INFO</span>
+            <h2>TOURNAMENT BRIEF</h2>
+          </div>
+          <div class="rules-grid">
+            <article class="rule">
+              <h3>Format</h3>
+              <p>
+                Group stage into single-elimination playoffs. BO3 until finals
+                (BO5).
+              </p>
+            </article>
+            <article class="rule">
+              <h3>Map Pool</h3>
+              <ul>
+                <li>Crash</li>
+                <li>Crossfire</li>
+                <li>Backlot</li>
+                <li>Strike</li>
+                <li>District</li>
+              </ul>
+            </article>
+            <article class="rule">
+              <h3>Contact</h3>
+              <p>Email: esports@univ.lk • Discord: #cod4-tourney</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container foot-inner">
+        <span>© 2025 University Esports</span> <span class="dot">•</span>
+        <a href="#leaderboard">Leaderboard</a> <span class="dot">•</span>
+        <a href="./register.html">Register</a>
+      </div>
+    </footer>
+    <script src="app.js"></script>
+  </body>
+</html>
