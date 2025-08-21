@@ -598,6 +598,81 @@ a:hover {
   }
 }
 
+#heroArtLeft,
+#heroArtRight {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 100%;
+  width: clamp(120px, 20vw, 200px);
+  aspect-ratio: 1 / 3;
+  opacity: 0.28;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 18px;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.45));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+#heroArtLeft {
+  left: clamp(0px, 8vw, 5px);
+  background-image: linear-gradient(160deg,
+      rgba(0, 102, 68, 0.75),
+      rgba(0, 0, 0, 0) 65%),
+    url("cod2.png");
+}
+
+#heroArtRight {
+  right: clamp(0px, 8vw, 5px);
+  background-image: linear-gradient(160deg,
+      rgba(0, 102, 68, 0.75),
+      rgba(0, 0, 0, 0) 65%),
+    url("cod1.png");
+}
+
+@media (max-width: 1450px) {
+
+  #heroArtLeft,
+  #heroArtRight {
+    display: none;
+  }
+}
+
+#heroArtLeft::before,
+#heroArtRight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom,
+      rgba(0, 255, 136, 0.08) 0px,
+      rgba(0, 255, 136, 0.08) 2px,
+      transparent 3px,
+      transparent 6px);
+  animation: scan 2s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scan {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@media (max-width: 960px) {
+
+  #heroArtLeft,
+  #heroArtRight {
+    display: none;
+  }
+}
+
 .skeleton {
   position: relative;
   overflow: hidden;
