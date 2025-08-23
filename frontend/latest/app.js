@@ -1,6 +1,7 @@
 // ===== Config =====
-const API_BASE = window.API_BASE || "https://cod-api.sasivarnasarma.eu.org/"; // override by setting localStorage.API_BASE
+const API_BASE = window.API_BASE || "https://cod-api.sasivarnasarma.eu.org/";
 const COUNTDOWN = "2025-08-30 08:00";
+
 // ===== Mobile menu =====
 const menuBtn = document.getElementById("menuBtn");
 const navLinks = document.getElementById("navLinks");
@@ -36,12 +37,13 @@ if (menuBtn) {
     const s = String(seconds).padStart(2, "0");
 
     if (diff <= 0) {
-      document.querySelector(".hero-meta").setAttribute("hidden", "");
-      // el.textContent = 'Match Started';
+      document.querySelector(".hero-meta")?.setAttribute("hidden", "");
+      // el.textContent = "The match has started!";
     } else {
       el.textContent = `${days} D ${h} H ${m} M ${s} S`;
     }
   }
+
   update();
   setInterval(update, 1000);
 })();
@@ -64,13 +66,14 @@ async function api(path, opts = {}) {
   return res.text();
 }
 
-function showToast(el, msg, ok = true) {
+function showToast(el, msg, ok = true, timeout = 4000) {
   if (!el) return;
   el.textContent = msg;
-  el.style.color = ok ? "var(--muted)" : "var(--danger)";
+  el.className = "toast show " + (ok ? "success" : "error");
   setTimeout(() => {
+    el.classList.remove("show");
     el.textContent = "";
-  }, 4000);
+  }, timeout);
 }
 
 function formatDate(isoString) {
@@ -88,33 +91,125 @@ function formatDate(isoString) {
 // ===== Registration =====
 (function () {
   const form = document.getElementById("teamRegisterForm");
+  if (!form) return;
   const toast = document.getElementById("regToast");
+  const submitBtn = form?.querySelector('button[type="submit"]');
+  const teamNameInput = document.getElementById("teamName");
+  const phoneInput = document.getElementById("teamPhone");
+  const memberInputs = form?.querySelectorAll(".member-name");
 
-  if (!form || !toast) return;
+  const nameRegex = /^[A-Za-z0-9 ]{4,30}$/;
+  const phoneRegex = /^\+?[0-9]{10,15}$/;
+  const memberRegex = /^[A-Za-z ]{5,30}$/;
 
-  function showToast(toastEl, message, success = true) {
-    toastEl.textContent = message;
-    toastEl.className = "toast show " + (success ? "success" : "error");
-    setTimeout(() => {
-      toastEl.classList.remove("show");
-    }, 4000);
+  let turnstileToken = "";
+  const touched = new Set();
+
+  function validateField(input, regex, errorEl, msg) {
+    const value = input.value.trim();
+    const isValid = regex.test(value);
+    if (touched.has(input) && !isValid) {
+      errorEl.textContent = msg;
+    } else {
+      errorEl.textContent = "";
+    }
+    return isValid;
   }
+
+  function validateFormRealtime() {
+    const nameError = document.getElementById("teamNameError");
+    const phoneError = document.getElementById("teamPhoneError");
+
+    const isTeamNameValid = validateField(
+      teamNameInput,
+      nameRegex,
+      nameError,
+      "Team name must be 4-30 letters/numbers"
+    );
+
+    const isPhoneValid = validateField(
+      phoneInput,
+      phoneRegex,
+      phoneError,
+      "Phone must be 10-15 digits, must start with +94"
+    );
+
+    let areMembersValid = true;
+    let allFilled = true;
+
+    memberInputs.forEach((input, i) => {
+      const errorEl = form.querySelector(`.member-error[data-index="${i}"]`);
+      const value = input.value.trim();
+      const isValid = memberRegex.test(value);
+
+      if (touched.has(input) && !isValid) {
+        errorEl.textContent = `Member ${i + 1}: 5-30 letters only`;
+      } else {
+        errorEl.textContent = "";
+      }
+
+      if (!isValid) areMembersValid = false;
+      if (!value) allFilled = false;
+    });
+
+    const formIsValid =
+      isTeamNameValid && isPhoneValid && areMembersValid && allFilled;
+    if (submitBtn) submitBtn.disabled = !(formIsValid && turnstileToken);
+  }
+
+  [teamNameInput, phoneInput, ...memberInputs].forEach((input) => {
+    input.addEventListener("input", () => {
+      touched.add(input);
+      validateFormRealtime();
+    });
+    input.addEventListener("blur", () => {
+      touched.add(input);
+      validateFormRealtime();
+    });
+  });
+
+  validateFormRealtime();
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const teamName = (document.getElementById("teamName")?.value || "").trim();
-    const telephone = (
-      document.getElementById("teamPhone")?.value || ""
-    ).trim();
-    const memberInputs = form.querySelectorAll(".member-name");
+    [teamNameInput, phoneInput, ...memberInputs].forEach((i) => touched.add(i));
+    validateFormRealtime();
+
+    const teamName = teamNameInput?.value.trim() || "";
+    const telephone = phoneInput?.value.trim() || "";
 
     const members = Array.from(memberInputs)
       .map((input) => input.value.trim())
       .filter(Boolean)
-      .map((name) => ({
-        name,
-      }));
+      .map((name) => ({ name }));
+
+    if (!nameRegex.test(teamName)) {
+      showToast(toast, "Invalid team name format.", false);
+      return;
+    }
+
+    if (!phoneRegex.test(telephone)) {
+      showToast(toast, "Invalid phone number format.", false);
+      return;
+    }
+
+    if (members.length !== 5) {
+      showToast(toast, "Exactly 5 team members are required.", false);
+      return;
+    }
+
+    for (let i = 0; i < members.length; i++) {
+      if (!memberRegex.test(members[i].name)) {
+        showToast(toast, `Invalid name for member ${i + 1}.`, false);
+        return;
+      }
+    }
+
+    if (!turnstileToken) {
+      showToast(toast, "Please complete the CAPTCHA verification.", false);
+      return;
+    }
 
     const payload = {
       id:
@@ -124,30 +219,41 @@ function formatDate(isoString) {
       name: teamName,
       telephone,
       members,
+      cf_turnstile: turnstileToken,
     };
-
-    if (!payload.name || !payload.telephone || members.length < 5) {
-      showToast(toast, "Please fill all fields (5 members required).", false);
-      return;
-    }
 
     try {
       await api("/teams/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
       showToast(toast, "Team registered successfully.");
       localStorage.setItem("lastTeamName", payload.name);
       form.reset();
+      touched.clear();
+      turnstileToken = "";
+      turnstile.reset();
+      validateFormRealtime();
     } catch (err) {
       console.error(err);
-      showToast(toast, "Registration failed: " + err.message, false);
+      turnstileToken = "";
+      turnstile.reset();
+      validateFormRealtime();
+      showToast(toast, "Registration failed: " + err.message, false, 10000);
     }
   });
+
+  window.onTurnstileVerified = function (token) {
+    turnstileToken = token;
+    validateFormRealtime();
+  };
+
+  window.onTurnstileExpired = function () {
+    turnstileToken = "";
+    validateFormRealtime();
+  };
 })();
 
 // ===== Matches =====
@@ -191,19 +297,14 @@ async function loadMatches() {
     await Promise.all(
       Array.from(teamIds).map(async (id) => {
         try {
-          const teamData = await api(`/teams/${id}`, {
-            method: "GET",
-          });
+          const teamData = await api(`/teams/${id}`, { method: "GET" });
           teamMap[id] = {
             name: teamData.name || id,
-            points: teamData.total_points != null ? teamData.total_points : "-",
+            points: teamData.total_points ?? "-",
           };
         } catch (err) {
           console.warn(`Failed to load team ${id}`, err);
-          teamMap[id] = {
-            name: id,
-            points: "-",
-          };
+          teamMap[id] = { name: id, points: "-" };
         }
       })
     );
@@ -298,20 +399,17 @@ async function loadLeaderboard() {
 
   tbody.innerHTML = "";
   empty.hidden = true;
-
   tableWrap.classList.add("skeleton");
 
   try {
-    const data = await api("/leaderboard", {
-      method: "GET",
-    });
+    const data = await api("/leaderboard", { method: "GET" });
     const rows = (Array.isArray(data) ? data : data.rankings || []).map(
       (row, i) => {
         const team = row.name || "Unknown";
-        const wins = row.wins ?? row.wins ?? 0;
-        const losses = row.losses ?? row.losses ?? 0;
-        const draws = row.draws ?? row.draws ?? 0;
-        const pts = row.total_points ?? row.total_points ?? 0;
+        const wins = row.wins ?? 0;
+        const losses = row.losses ?? 0;
+        const draws = row.draws ?? 0;
+        const pts = row.total_points ?? 0;
         return `<tr><td>${
           i + 1
         }</td><td>${team}</td><td>${pts}</td><td>${wins}</td><td>${losses}</td><td>${draws}</td></tr>`;
@@ -325,12 +423,13 @@ async function loadLeaderboard() {
   } catch (err) {
     console.error(err);
     const tr = document.createElement("tr");
-    tr.innerHTML = `<td colspan="5">Failed to load leaderboard: ${err.message}</td>`;
+    tr.innerHTML = `<td colspan="6">Failed to load leaderboard: ${err.message}</td>`;
     tbody.appendChild(tr);
   } finally {
     tableWrap.classList.remove("skeleton");
   }
 }
+
 document
   .getElementById("refreshLeaderboard")
   ?.addEventListener("click", loadLeaderboard);

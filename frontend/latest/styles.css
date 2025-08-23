@@ -1,11 +1,11 @@
 :root {
-  --bg: #0b0f0e;
-  --panel: #0f1513;
-  --ink: #d9fbe7;
-  --muted: #8de3ba;
-  --accent-1: #00ff88;
-  --accent-2: #0bb36d;
-  --accent-3: #006644;
+  --bg: #0D0F0B;
+  --panel: #13150F;
+  --ink: #EEFBD9;
+  --muted: #C2E38D;
+  --accent-1: #9CFF00;
+  --accent-2: #82D400;
+  --accent-3: #5E9900;
   --danger: #ff4d6d;
 }
 
@@ -22,10 +22,10 @@ body {
   margin: 0;
   color: var(--ink);
   background: radial-gradient(1200px 600px at 80% -10%,
-      rgba(0, 255, 136, 0.1),
+      rgba(156, 255, 0, 0.1),
       transparent 60%),
     radial-gradient(1000px 500px at -10% 20%,
-      rgba(0, 102, 68, 0.12),
+      rgba(94, 153, 0, 0.12),
       transparent 60%),
     var(--bg);
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
@@ -52,9 +52,9 @@ a:hover {
   top: 0;
   z-index: 10;
   background: linear-gradient(180deg,
-      rgba(15, 21, 19, 0.95),
-      rgba(15, 21, 19, 0.65));
-  border-bottom: 1px solid rgba(141, 227, 186, 0.12);
+      rgba(19, 21, 15, 0.95),
+      rgba(19, 21, 15, 0.65));
+  border-bottom: 1px solid rgba(194, 227, 141, 0.12);
   backdrop-filter: blur(6px);
 }
 
@@ -79,8 +79,8 @@ a:hover {
   letter-spacing: 1px;
   width: 44px;
   height: 32px;
-  border: 1px solid rgba(141, 227, 186, 0.3);
-  background: #0d1412;
+  border: 1px solid rgba(194, 227, 141, 0.3);
+  background: #11140D;
   color: var(--accent-1);
 }
 
@@ -101,7 +101,7 @@ a:hover {
   background: transparent;
   color: var(--ink);
   font-size: 22px;
-  border: 1px solid rgba(141, 227, 186, 0.25);
+  border: 1px solid rgba(194, 227, 141, 0.25);
   padding: 6px 10px;
   border-radius: 10px;
 }
@@ -112,12 +112,12 @@ a:hover {
 }
 
 .links a:hover {
-  background: rgba(0, 255, 136, 0.08);
+  background: rgba(156, 255, 0, 0.08);
 }
 
 .hero {
   padding: 64px 0 20px;
-  border-bottom: 1px solid rgba(141, 227, 186, 0.12);
+  border-bottom: 1px solid rgba(194, 227, 141, 0.12);
   overflow: hidden;
 }
 
@@ -151,7 +151,7 @@ a:hover {
 
 .btn {
   background: var(--accent-2);
-  color: #082018;
+  color: #172008;
   border: 1px solid var(--accent-3);
   padding: 10px 14px;
   border-radius: 12px;
@@ -161,20 +161,20 @@ a:hover {
 
 .btn:hover {
   filter: brightness(1.2);
-  color: #082018;
+  color: #172008;
 }
 
 .btn.ghost {
   background: transparent;
   color: var(--ink);
-  border-color: rgba(141, 227, 186, 0.35);
+  border-color: rgba(194, 227, 141, 0.35);
 }
 
 .meta-card {
   background: var(--panel);
   padding: 14px;
   border-radius: 14px;
-  border: 1px solid rgba(141, 227, 186, 0.18);
+  border: 1px solid rgba(194, 227, 141, 0.18);
   margin-bottom: 10px;
 
   /* display: flex;
@@ -190,7 +190,7 @@ a:hover {
   letter-spacing: 1px;
   font-size: 12px;
   padding: 6px 10px;
-  color: #001d10;
+  color: #121D00;
   background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   border-radius: 999px;
 }
@@ -204,12 +204,12 @@ a:hover {
   display: inline-block;
   padding: 6px 10px;
   border-radius: 999px;
-  border: 1px solid rgba(141, 227, 186, 0.3);
+  border: 1px solid rgba(194, 227, 141, 0.3);
 }
 
 .server-pill.online {
   color: var(--accent-1);
-  border-color: rgba(0, 255, 136, 0.5);
+  border-color: rgba(156, 255, 0, 0.5);
 }
 
 .section-head {
@@ -237,9 +237,9 @@ a:hover {
   grid-template-columns: 1.2fr 1fr;
   gap: 20px;
   background: linear-gradient(135deg,
-      rgba(0, 255, 136, 0.08),
-      rgba(0, 102, 68, 0.06));
-  border: 1px solid rgba(141, 227, 186, 0.18);
+      rgba(156, 255, 0, 0.08),
+      rgba(94, 153, 0, 0.06));
+  border: 1px solid rgba(194, 227, 141, 0.18);
   border-radius: 18px;
   padding: 24px;
 }
@@ -266,22 +266,40 @@ a:hover {
 .reg-form label {
   display: grid;
   gap: 6px;
-  font-size: 14px;
-  color: #b8ffe1;
+  font-size: 17px;
+  color: #E3FFB8;
 }
 
 .reg-form input,
 .reg-form select {
   height: 44px;
   border-radius: 10px;
-  border: 1px solid rgba(141, 227, 186, 0.25);
-  background: #0c1412;
-  color: #eafff5;
+  border: 1px solid rgba(194, 227, 141, 0.25);
+  background: #11140C;
+  color: #F7FFEA;
   padding: 0 12px;
 }
 
 .reg-form button {
   margin-top: 6px;
+}
+
+.reg-form .error-msg {
+  color: var(--danger, #e74c3c);
+  font-size: 0.85rem;
+  margin-top: 4px;
+  display: block;
+  min-height: 1em;
+}
+.reg-form button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cf-turnstile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .stage {
@@ -296,7 +314,7 @@ a:hover {
 
 .card {
   background: var(--panel);
-  border: 1px solid rgba(141, 227, 186, 0.18);
+  border: 1px solid rgba(194, 227, 141, 0.18);
   border-radius: 16px;
   padding: 14px;
   text-align: center;
@@ -341,7 +359,7 @@ a:hover {
 
 .table-wrap {
   background: var(--panel);
-  border: 1px solid rgba(141, 227, 186, 0.18);
+  border: 1px solid rgba(194, 227, 141, 0.18);
   border-radius: 16px;
   overflow: auto;
 }
@@ -355,7 +373,7 @@ a:hover {
 .table th,
 .table td {
   padding: 10px 12px;
-  border-bottom: 1px solid rgba(141, 227, 186, 0.15);
+  border-bottom: 1px solid rgba(194, 227, 141, 0.15);
   text-align: left;
 }
 
@@ -366,7 +384,7 @@ a:hover {
 }
 
 .table tbody tr:hover {
-  background: rgba(0, 255, 136, 0.06);
+  background: rgba(156, 255, 0, 0.06);
 }
 
 .rules {
@@ -381,15 +399,15 @@ a:hover {
 
 .rule {
   background: var(--panel);
-  border: 1px solid rgba(141, 227, 186, 0.18);
+  border: 1px solid rgba(194, 227, 141, 0.18);
   border-radius: 16px;
   padding: 14px;
 }
 
 .site-footer {
-  border-top: 1px solid rgba(141, 227, 186, 0.12);
+  border-top: 1px solid rgba(194, 227, 141, 0.12);
   padding: 18px 0;
-  background: #0c1210;
+  background: #10120C;
 }
 
 .foot-inner {
@@ -476,8 +494,8 @@ a:hover {
 }
 
 .member-row input {
-  background: #0c1311;
-  border: 1px solid rgba(141, 227, 186, 0.25);
+  background: #10130C;
+  border: 1px solid rgba(194, 227, 141, 0.25);
   border-radius: 10px;
   padding: 10px 12px;
   color: var(--ink);
@@ -620,7 +638,7 @@ a:hover {
 #heroArtLeft {
   left: clamp(0px, 8vw, 5px);
   background-image: linear-gradient(160deg,
-      rgba(0, 102, 68, 0.75),
+      rgba(94, 153, 0, 0.75),
       rgba(0, 0, 0, 0) 65%),
     url("cod2.png");
 }
@@ -628,7 +646,7 @@ a:hover {
 #heroArtRight {
   right: clamp(0px, 8vw, 5px);
   background-image: linear-gradient(160deg,
-      rgba(0, 102, 68, 0.75),
+      rgba(94, 153, 0, 0.75),
       rgba(0, 0, 0, 0) 65%),
     url("cod1.png");
 }
@@ -647,8 +665,8 @@ a:hover {
   position: absolute;
   inset: 0;
   background: repeating-linear-gradient(to bottom,
-      rgba(0, 255, 136, 0.08) 0px,
-      rgba(0, 255, 136, 0.08) 2px,
+      rgba(156, 255, 0, 0.08) 0px,
+      rgba(156, 255, 0, 0.08) 2px,
       transparent 3px,
       transparent 6px);
   animation: scan 2s linear infinite;

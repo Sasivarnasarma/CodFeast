@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 import firebase_admin
 from firebase_admin import credentials, auth, firestore
 
-FIREBASE_CRED_PATH = os.environ.get('FIREBASE_CREDENTIAL_PATH', '')
+FIREBASE_CRED_PATH = os.environ.get('FIREBASE_CREDENTIAL_PATH')
 
 # Initialize Firebase Admin SDK (idempotent)
 if not firebase_admin._apps:

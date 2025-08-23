@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CoD4 Tournament — University Esports</title>
     <link rel="stylesheet" href="styles.css" />
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer></script>
   </head>
 
   <body>
@@ -34,8 +35,8 @@
           <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice">
             <defs>
               <linearGradient id="grid" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#00ff88" stop-opacity="0.8" />
-                <stop offset="100%" stop-color="#006644" stop-opacity="0.1" />
+                <stop offset="0%" stop-color="#9CFF00" stop-opacity="0.8" />
+                <stop offset="100%" stop-color="#5E9900" stop-opacity="0.1" />
               </linearGradient>
             </defs>
             <g opacity="0.55">
@@ -70,27 +71,25 @@
               <li>Proof of ID + Discord required</li>
               <li>Match lobbies hosted on dedicated servers</li>
             </ul>
-            <a class="btn primary" href="#!">Open Registration Form</a>
           </div>
           <form id="teamRegisterForm" class="reg-form">
-            <label
-              >Team Name
-              <input
-                id="teamName"
-                required
-                type="text"
-                placeholder="e.g., Green Reapers"
-              />
+            <label>
+              Team Name
+              <input id="teamName" required type="text" placeholder="e.g., Green Reapers" />
+              <span class="error-msg" id="teamNameError"></span>
             </label>
+
             <label
               >Team Captain's Telephone Number
               <input
                 id="teamPhone"
                 required
                 type="tel"
+                value="+94"
                 placeholder="e.g., +94 123 456 7890"
                 pattern="^\+?[1-9]\d{1,14}$"
               />
+              <span class="error-msg" id="teamPhoneError"></span>
             </label>
             <div class="members" style="display: grid; gap: 8px">
               <label>Team Members (5 max)</label>
@@ -99,32 +98,50 @@
                 required
                 type="text"
                 placeholder="Member 1"
+                data-index="0"
               />
+              <span class="error-msg member-error" data-index="0"></span>
               <input
                 class="member-name"
                 required
                 type="text"
                 placeholder="Member 2"
+                data-index="1"
               />
+              <span class="error-msg member-error" data-index="1"></span>
               <input
                 class="member-name"
                 required
                 type="text"
                 placeholder="Member 3"
+                data-index="2"
               />
+              <span class="error-msg member-error" data-index="2"></span>
               <input
                 class="member-name"
                 required
                 type="text"
                 placeholder="Member 4"
+                data-index="3"
               />
+              <span class="error-msg member-error" data-index="3"></span>
               <input
                 class="member-name"
                 required
                 type="text"
                 placeholder="Member 5"
+                data-index="4"
               />
+              <span class="error-msg member-error" data-index="4"></span>
             </div>
+            <div
+              class="cf-turnstile"
+              data-sitekey="3x00000000000000000000FF"
+              data-theme="dark"
+              data-size="flexible"
+              data-callback="onTurnstileVerified"
+              data-expired-callback="onTurnstileExpired"
+            ></div>
             <button class="btn primary" type="submit">Register Team</button>
             <div
               class="toast"

@@ -1,5 +1,12 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+
+config = load_dotenv('config.env', override=True)
+if not config:
+    print("Warning: config.env file not found or could not be loaded.")
+    exit(1)
 
 from .routers import teams, matches, leaderboard, auth
 

@@ -1,18 +1,35 @@
-from fastapi import APIRouter, Depends, HTTPException
+import os
+from fastapi import APIRouter, Request, Depends, HTTPException
 from ..models.schemas import TeamCreate, TeamResponse
-from ..services import firebase as fb
+from ..services import firebase as fb, turnstile
 from typing import List
+
+TURNSTILE_SECRET_KEY = os.getenv('TURNSTILE_SECRET_KEY', '1x0000000000000000000000000000000AA')
 
 router = APIRouter(prefix='/teams', tags=['teams'])
 
 @router.post('/register', response_model=TeamResponse)
-async def register_team(payload: TeamCreate, user=Depends(lambda: None)):
-    # For simplicity, we skip per-user restriction — you can require auth and check user.uid
+async def register_team(payload: TeamCreate, request: Request, user=Depends(lambda: None)):
+    client_ip = request.headers.get("CF-Connecting-IP") or \
+                request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or \
+                request.client.host or None
+    turnstile_response = turnstile.verify_turnstile_token(
+        TURNSTILE_SECRET_KEY, payload.cf_turnstile, client_ip
+    )
+    if not turnstile_response.get("success"):
+        raise HTTPException(
+            status_code=401, 
+            detail=turnstile_response.get('error-codes')[0]
+                if turnstile_response.get('error-codes') else 
+                'Turnstile verification failed'
+            )
+
     team_id = payload.id
     exists = fb.get_team(team_id)
     if exists:
         raise HTTPException(status_code=400, detail='Team ID already exists')
     team_data = payload.model_dump()
+    del team_data['cf_turnstile']
     team_data.update({'id': team_id})
     fb.create_team(team_id, team_data)
     return team_data

@@ -10,6 +10,7 @@ class TeamCreate(BaseModel):
     name: str
     telephone: str
     members: List[Member]
+    cf_turnstile: str
 
 class TeamResponse(BaseModel):
     id: str

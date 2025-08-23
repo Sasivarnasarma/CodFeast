@@ -1,6 +1,8 @@
+requests
 fastapi
 uvicorn[standard]
 firebase-admin
+python-dotenv
 google-cloud-firestore
 pydantic
 python-multipart
