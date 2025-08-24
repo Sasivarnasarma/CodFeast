@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CoD4 Tournament — University Esports</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <div id="heroArtLeft" aria-hidden="true"></div>
+    <div id="heroArtRight" aria-hidden="true"></div>
+    <header class="nav">
+      <div class="container nav-inner">
+        <div class="brand">
+          <span class="logo-box">UoK</span>
+          <span class="brand-text">COD4 - Modern Warfare</span>
+        </div>
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+          ☰
+        </button>
+        <nav class="links" id="navLinks">
+          <a href="./">Home</a> <a href="./register.html">Register</a> <a href="./#matches">Matches</a>
+          <a href="./#leaderboard">Leaderboard</a> <a href="./#info">Info</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-bg-image"></div>
+        <div class="hero-art">
+          <!-- Simple geometric art -->
+          <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="grid" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#9CFF00" stop-opacity="0.8" />
+                <stop offset="100%" stop-color="#5E9900" stop-opacity="0.1" />
+              </linearGradient>
+            </defs>
+            <g opacity="0.55">
+              <!-- grid -->
+              <path d="M0 350 L800 50" stroke="url(#grid)" stroke-width="2" />
+              <path d="M0 320 L800 20" stroke="url(#grid)" stroke-width="1" />
+              <path d="M0 380 L800 80" stroke="url(#grid)" stroke-width="1" />
+              <path d="M50 0 L50 400" stroke="url(#grid)" stroke-width="1" />
+              <path d="M150 0 L150 400" stroke="url(#grid)" stroke-width="1" />
+              <path d="M250 0 L250 400" stroke="url(#grid)" stroke-width="1" />
+              <path d="M350 0 L350 400" stroke="url(#grid)" stroke-width="1" />
+              <path d="M450 0 L450 400" stroke="url(#grid)" stroke-width="1" />
+              <path d="M550 0 L550 400" stroke="url(#grid)" stroke-width="1" />
+              <path d="M650 0 L650 400" stroke="url(#grid)" stroke-width="1" />
+              <path d="M750 0 L750 400" stroke="url(#grid)" stroke-width="1" />
+            </g>
+          </svg>
+        </div>
+      </section>
+
+      <section id="teamsListSection" class="teams-list">
+        <div class="container">
+          <h2 class="teams-title">Registered Teams <span id="teamCount" class="team-count"></span></h2>
+          <div id="teamsLoading" class="spinner-container">
+            <div class="spinner"></div>
+          </div>
+          <div id="teamsError" class="error hidden">Failed to load teams.</div>
+          <div id="teamsCards" class="teams-cards"></div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container foot-inner">
+        <span>© 2025 University Esports</span> <span class="dot">•</span>
+        <a href="./#leaderboard">Leaderboard</a> <span class="dot">•</span>
+        <a href="#register">Register</a>
+      </div>
+    </footer>
+    <script src="app.js" defer></script>
+  </body>
+</html>

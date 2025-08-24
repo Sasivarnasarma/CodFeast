@@ -94,6 +94,8 @@ function formatDate(isoString) {
   if (!form) return;
   const toast = document.getElementById("regToast");
   const submitBtn = form?.querySelector('button[type="submit"]');
+  const btnText = submitBtn?.querySelector(".btn-text");
+  const spinner = document.getElementById("submitSpinner");
   const teamNameInput = document.getElementById("teamName");
   const phoneInput = document.getElementById("teamPhone");
   const memberInputs = form?.querySelectorAll(".member-name");
@@ -223,6 +225,9 @@ function formatDate(isoString) {
     };
 
     try {
+      btnText.hidden = true;
+      spinner.hidden = false;
+
       await api("/teams/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -231,12 +236,12 @@ function formatDate(isoString) {
 
       showToast(toast, "Team registered successfully.");
       localStorage.setItem("lastTeamName", payload.name);
-      form.reset();
-      touched.clear();
-      turnstileToken = "";
-      turnstile.reset();
-      validateFormRealtime();
+      setTimeout(() => {
+        window.location.href = `./team.html?id=${payload.id}&stp=1`;
+      }, 2000);
     } catch (err) {
+      btnText.hidden = false;
+      spinner.hidden = true;
       console.error(err);
       turnstileToken = "";
       turnstile.reset();
@@ -275,9 +280,7 @@ async function loadMatches() {
   fnEmpty.hidden = true;
 
   try {
-    const matches = await api("/matches", {
-      method: "GET",
-    });
+    const matches = await api("/matches", { method: "GET" });
 
     if (!Array.isArray(matches) || matches.length === 0) {
       upList.innerHTML = "";
@@ -293,21 +296,17 @@ async function loadMatches() {
       if (m.team2_id) teamIds.add(m.team2_id);
     });
 
+    const allTeams = await api("/teams", { method: "GET" }); // <-- bulk fetch
+
     const teamMap = {};
-    await Promise.all(
-      Array.from(teamIds).map(async (id) => {
-        try {
-          const teamData = await api(`/teams/${id}`, { method: "GET" });
-          teamMap[id] = {
-            name: teamData.name || id,
-            points: teamData.total_points ?? "-",
-          };
-        } catch (err) {
-          console.warn(`Failed to load team ${id}`, err);
-          teamMap[id] = { name: id, points: "-" };
-        }
-      })
-    );
+    if (Array.isArray(allTeams)) {
+      allTeams.forEach((team) => {
+        teamMap[team.id] = {
+          name: team.name || team.id,
+          points: team.total_points ?? "-",
+        };
+      });
+    }
 
     const upcomingMatches = matches
       .filter((m) => m.status !== "completed")
@@ -353,15 +352,15 @@ async function loadMatches() {
           const scoreHtml = score ? `<span class="meta">${score}</span>` : "";
 
           return `<article class="card">
-        <div class="row teams">
-          <span>${team1.name} (${team1.points} pts)</span>
-          <span>vs</span>
-          <span>${team2.name} (${team2.points} pts)</span>
-        </div>
-        <div class="row">
-          <span class="meta">${meta}</span>${scoreHtml}
-        </div>
-      </article>`;
+            <div class="row teams">
+              <span>${team1.name} (${team1.points} pts)</span>
+              <span>vs</span>
+              <span>${team2.name} (${team2.points} pts)</span>
+            </div>
+            <div class="row">
+              <span class="meta">${meta}</span>${scoreHtml}
+            </div>
+          </article>`;
         })
         .join("");
     }
@@ -433,6 +432,176 @@ async function loadLeaderboard() {
 document
   .getElementById("refreshLeaderboard")
   ?.addEventListener("click", loadLeaderboard);
+
+// === Teams List ===
+async function loadTeamsList() {
+  const loadingEl = document.getElementById("teamsLoading");
+  const errorEl = document.getElementById("teamsError");
+  const cardsContainer = document.getElementById("teamsCards");
+  const countEl = document.getElementById("teamCount");
+
+  if (!loadingEl || !errorEl || !cardsContainer) {
+    return;
+  }
+
+  loadingEl.classList.remove("hidden");
+  errorEl.classList.add("hidden");
+  cardsContainer.innerHTML = "";
+
+  try {
+    const res = await api("/teams", { method: "GET" });
+
+    if (!Array.isArray(res) || res.length === 0) {
+      cardsContainer.innerHTML = "<p>No teams found.</p>";
+      loadingEl.classList.add("hidden");
+      return;
+    }
+
+    if (countEl) {
+      countEl.textContent = `(${res.length})`;
+    }
+
+    res.forEach((team) => {
+      const points = team.total_points ?? 0;
+      const wins = team.wins ?? 0;
+      const draws = team.draws ?? 0;
+      const losses = team.losses ?? 0;
+      const rawStatus = team.status || "unknown";
+      const niceStatus =
+        rawStatus.charAt(0).toUpperCase() + rawStatus.slice(1).toLowerCase();
+
+      const card = document.createElement("div");
+      card.className = "team-card";
+      card.tabIndex = 0;
+
+      card.innerHTML = `
+        <h3>${team.name}</h3>
+        <span class="team-status-label ${
+          rawStatus.toLowerCase() || "unknown"
+        }">${niceStatus}</span>
+        <div class="team-stats">
+          <div>
+            <span>${points}</span>
+            Points
+          </div>
+          <div>
+            <span>${wins}</span>
+            Wins
+          </div>
+          <div>
+            <span>${draws}</span>
+            Draws
+          </div>
+          <div>
+            <span>${losses}</span>
+            Losses
+          </div>
+        </div>
+      `;
+
+      card.addEventListener("click", () => {
+        window.location.href = `team.html?id=${encodeURIComponent(team.id)}`;
+      });
+
+      card.addEventListener("keypress", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          window.location.href = `team.html?id=${encodeURIComponent(team.id)}`;
+        }
+      });
+
+      cardsContainer.appendChild(card);
+    });
+  } catch (error) {
+    console.error("Error loading teams:", error);
+    errorEl.classList.remove("hidden");
+  } finally {
+    loadingEl.classList.add("hidden");
+  }
+}
+
+if (document.getElementById("teamsListSection")) {
+  document.addEventListener("DOMContentLoaded", loadTeamsList);
+}
+
+// === Team Details ===
+async function loadTeamDetails() {
+  const queryParams = new URLSearchParams(window.location.search);
+  const teamId = queryParams.get("id");
+  const showTelephone = queryParams.get("stp") === "1";
+
+  const el = {
+    loading: document.getElementById("teamLoading"),
+    content: document.getElementById("teamContent"),
+    error: document.getElementById("teamError"),
+    name: document.getElementById("teamName"),
+    status: document.getElementById("teamStatus"),
+    phone: document.getElementById("teamPhone"),
+    registeredAt: document.getElementById("teamRegisteredAt"),
+    points: document.getElementById("teamPoints"),
+    record: document.getElementById("teamRecord"),
+    memberList: document.getElementById("teamMemberList"),
+  };
+
+  el.loading.classList.remove("hidden");
+  el.content.classList.add("hidden");
+  el.error.classList.add("hidden");
+
+  if (!teamId) {
+    el.loading.classList.add("hidden");
+    el.error.textContent = "No team ID provided.";
+    el.error.classList.remove("hidden");
+    return;
+  }
+
+  try {
+    const team = await api(`/teams/${teamId}`);
+
+    el.name.textContent = team.name || "Unnamed Team";
+
+    const rawStatus = team.status || "unknown";
+    const niceStatus =
+      rawStatus.charAt(0).toUpperCase() + rawStatus.slice(1).toLowerCase();
+    el.status.textContent = `Status: ${niceStatus}`;
+    el.status.className = "team-status " + rawStatus.toLowerCase();
+
+    if (showTelephone && team.telephone) {
+      el.phone.textContent = team.telephone;
+      el.phone.parentElement.classList.remove("hidden");
+    } else {
+      el.phone.parentElement.classList.add("hidden");
+    }
+
+    el.registeredAt.textContent = team.registered_at
+      ? formatDate(team.registered_at)
+      : "N/A";
+    el.points.textContent = team.total_points ?? 0;
+
+    const wins = team.wins ?? 0;
+    const losses = team.losses ?? 0;
+    const draws = team.draws ?? 0;
+    el.record.textContent = `${wins} Wins, ${losses} Losses, ${draws} Draws`;
+
+    if (Array.isArray(team.members) && team.members.length > 0) {
+      el.memberList.innerHTML = team.members
+        .map((m) => `<li>${m.name}</li>`)
+        .join("");
+    } else {
+      el.memberList.innerHTML = `<li>No members found.</li>`;
+    }
+
+    el.loading.classList.add("hidden");
+    el.content.classList.remove("hidden");
+  } catch (err) {
+    console.error("Failed to load team:", err);
+    el.loading.classList.add("hidden");
+    el.error.textContent = "Team not found.";
+    el.error.classList.remove("hidden");
+  }
+}
+
+if (document.getElementById("teamDetailsSection")) {
+  window.addEventListener("DOMContentLoaded", loadTeamDetails);
+}
 
 // ===== Boot =====
 window.addEventListener("DOMContentLoaded", () => {

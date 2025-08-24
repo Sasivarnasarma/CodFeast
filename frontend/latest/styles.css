@@ -319,6 +319,12 @@ a:hover {
   padding: 14px;
   text-align: center;
   word-break: break-word;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+
+.card:hover {
+  background: rgba(156, 255, 0, 0.06);
 }
 
 .card .row {
@@ -744,8 +750,296 @@ a:hover {
   animation: spin 1s ease-in-out infinite;
 }
 
+.reg-spinner {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  border: 5px solid transparent;
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+.reg-spinner[hidden] {
+  display: none !important;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
   }
+}
+
+.teams-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #9cff00;
+}
+
+.team-count {
+  color: #C2E38D;
+}
+
+.teams-list {
+    padding-top: 0rem;
+    padding-right: 0px;
+    padding-bottom: 2rem;
+    padding-left: 0px;
+}
+
+.teams-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.team-card {
+  background: #1b1b1b;
+  border: 1px solid #5e9900;
+  border-radius: 8px;
+  padding: 1.5rem;
+  padding-top: 2.5rem;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.team-card:hover,
+.team-card:focus {
+  background: #2e2e2e;
+  box-shadow: 0 0 8px #9cff00;
+  outline: none;
+}
+
+.team-card h3 {
+  margin: 0 0 0.5rem;
+  text-align: center;
+  color: #9cff00;
+  font-size: 1.25rem;
+}
+
+.team-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-top: 0.75rem;
+}
+
+.team-stats div {
+  text-align: center;
+}
+
+.team-stats div span {
+  display: block;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #9cff00;
+}
+
+.team-status-label {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: #eee;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+  text-transform: capitalize;
+  color: #555;
+}
+
+.team-status-label.approved {
+  background-color: #d4edda;
+  color: #155724;
+}
+.team-status-label.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+.team-status-label.rejected {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+.team-status-label.unknown {
+  background-color: #e2e3e5;
+  color: #6c757d;
+}
+
+.team-details {
+  padding-top: 0rem;
+  padding-right: 1rem;
+  padding-bottom: 0rem;
+  padding-left: 1rem;
+  color: #f0f0f0;
+  border-top: 0px solid #3fa34d;
+}
+
+.team-details .container {
+  max-width: 720px;
+  margin: auto;
+}
+
+.team-name {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #9cff00;
+}
+
+.team-status {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: #ccc;
+}
+
+.team-info p,
+.team-members li {
+  margin: 0.5rem 0;
+}
+
+.team-members ul {
+  padding-left: 1.5rem;
+  list-style: square;
+}
+
+.error {
+  color: #ff4d4d;
+  background: #2a0000;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-top: 2rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.team-details .container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.team-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.team-header .team-name {
+  font-size: 2rem;
+  margin-bottom: 0.3rem;
+  color: #9cff00;
+}
+
+.team-header .team-status {
+  font-size: 1rem;
+  color: #bbb;
+}
+
+.team-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.team-cards .card {
+  background-color: #111;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(156, 255, 0, 0.1);
+}
+
+.team-cards .card h4 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #9cff00;
+}
+
+.team-cards .card p {
+  margin: 0;
+  font-size: 1rem;
+  color: #eee;
+}
+
+.team-members h3 {
+  margin-bottom: 0.8rem;
+  color: #9cff00;
+  text-align: center;
+}
+
+.member-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.member-list li {
+  background-color: #1a1a1a;
+  border: 1px solid #2c2c2c;
+  border-left: 4px solid #9cff00;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.error {
+  color: #ff5c5c;
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+}
+
+#teamContent {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.team-status {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+/* Status-specific colors — adjust to your palette */
+.team-status.approved {
+  background-color: #d4f4e1;
+  color: #2e7d32;
+}
+
+.team-status.pending {
+  background-color: #fff8e1;
+  color: #f9a825;
+}
+
+.team-status.rejected {
+  background-color: #ffe5e5;
+  color: #d32f2f;
+}
+
+.team-status.unknown {
+  background-color: #e0e0e0;
+  color: #555;
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

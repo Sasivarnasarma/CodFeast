@@ -21,7 +21,7 @@
           ☰
         </button>
         <nav class="links" id="navLinks">
-          <a href="./">Home</a> <a href="./#matches">Matches</a>
+          <a href="./">Home</a> <a href="./teams.html">Teams</a> <a href="./#matches">Matches</a>
           <a href="./#leaderboard">Leaderboard</a> <a href="./#info">Info</a>
         </nav>
       </div>
@@ -142,7 +142,10 @@
               data-callback="onTurnstileVerified"
               data-expired-callback="onTurnstileExpired"
             ></div>
-            <button class="btn primary" type="submit">Register Team</button>
+            <button class="btn primary" type="submit">
+              <span class="btn-text">Register Team</span>
+              <span class="reg-spinner" id="submitSpinner" hidden></span>
+            </button>
             <div
               class="toast"
               id="regToast"
