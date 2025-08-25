@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Logging out...</title>
+  <script>
+    function clearAllCookies() {
+      const cookies = document.cookie.split("; ");
+      for (const cookie of cookies) {
+        const eqPos = cookie.indexOf("=");
+        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+      }
+    }
+    clearAllCookies();
+    window.location.href = "auth.html";
+  </script>
+</head>
+<body>
+  <p>Logging out... Please wait.</p>
+</body>
+</html>

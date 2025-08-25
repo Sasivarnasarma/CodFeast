@@ -51,7 +51,7 @@ class MatchResponse(BaseModel):
     id: str
     team1_id: str
     team2_id: str
-    team1_score: Optional[int]
-    team2_score: Optional[int]
+    team1_score: Optional[int] = 0
+    team2_score: Optional[int] = 0
     status: str
     scheduled_time: Optional[datetime]

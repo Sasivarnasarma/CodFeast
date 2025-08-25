@@ -31,7 +31,7 @@ async def register_team(payload: TeamCreate, request: Request):
     fb.create_team(team_id, team_data)
     return team_data
 
-@router.get('/', response_model=List[TeamResponse])
+@router.get('', response_model=List[TeamResponse])
 async def list_teams(status: str = None):
     teams = fb.list_teams(status=status)
     return teams

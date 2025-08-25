@@ -101,7 +101,7 @@ function formatDate(isoString) {
   const memberInputs = form?.querySelectorAll(".member-name");
 
   const nameRegex = /^[A-Za-z0-9 ]{4,30}$/;
-  const phoneRegex = /^\+?[0-9]{10,15}$/;
+  const phoneRegex = /^07\d{8}$/;
   const memberRegex = /^[A-Za-z ]{5,30}$/;
 
   let turnstileToken = "";
@@ -133,7 +133,7 @@ function formatDate(isoString) {
       phoneInput,
       phoneRegex,
       phoneError,
-      "Phone must be 10-15 digits, must start with +94"
+      "Phone must be 10 digits, must start with 07"
     );
 
     let areMembersValid = true;
@@ -296,7 +296,7 @@ async function loadMatches() {
       if (m.team2_id) teamIds.add(m.team2_id);
     });
 
-    const allTeams = await api("/teams", { method: "GET" }); // <-- bulk fetch
+    const allTeams = await api("/teams", { method: "GET" });
 
     const teamMap = {};
     if (Array.isArray(allTeams)) {
