@@ -20,7 +20,6 @@ MATCHES_COL = db.collection('matches')
 LEADERBOARD_COL = db.collection('leaderboard')
 USERS_COL = db.collection('users')
 
-# Basic helpers
 
 def get_user(uid: str) -> Optional[Dict[str, Any]]:
     doc = USERS_COL.document(uid).get()
@@ -53,12 +52,16 @@ def get_team(team_id: str):
 def update_team(team_id: str, updates: Dict[str, Any]):
     TEAMS_COL.document(team_id).set(updates, merge=True)
 
-def list_teams():
-    docs = TEAMS_COL.stream()
-    return [d.to_dict() for d in docs]
 
-def list_approved_teams():
-    docs = TEAMS_COL.where('status', '==', 'approved').stream()
+def delete_team(team_id: str):
+    TEAMS_COL.document(team_id).delete()
+
+
+def list_teams(status: str = None):
+    if status:
+        docs = TEAMS_COL.where('status', '==', status).stream()
+    else:
+        docs = TEAMS_COL.stream()
     return [d.to_dict() for d in docs]
 
 

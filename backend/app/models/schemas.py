@@ -1,6 +1,7 @@
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, Field
 from typing import List, Optional
 from datetime import datetime
+from enum import Enum
 
 class Member(BaseModel):
     name: str
@@ -24,15 +25,27 @@ class TeamResponse(BaseModel):
     registered_at: Optional[datetime]
     total_points: int = 0
 
+class TeamAction(str, Enum):
+    approve = 'approve'
+    reject = 'reject'
+    pending = 'pending'
+    delete = 'delete'
+
+class TeamActionRequest(BaseModel):
+    action: TeamAction
+    secret: str
+
 class MatchCreate(BaseModel):
     id: str
     team1_id: str
     team2_id: str
     scheduled_time: Optional[datetime]
+    secret: str
 
 class MatchScoreUpdate(BaseModel):
     team1_score: int
     team2_score: int
+    secret: str
 
 class MatchResponse(BaseModel):
     id: str
